@@ -21,6 +21,9 @@ class Broadcaster extends EventEmitter {
 				.pipe(new Writable({
 					objectMode: true,
 					write: (obj, enc, cb) => {
+						// kept this value a bit higher to avoid VERY frequent updates
+						const val = 500; 
+
 						if(!this.broadcasting)
 							return cb()
 
@@ -30,7 +33,7 @@ class Broadcaster extends EventEmitter {
 						setTimeout(() => {
 							this.emit("data", obj)
 							cb()
-						}, Math.ceil(Math.random() * 150))
+						}, Math.ceil(Math.random() * val))
 					}
 				}))
 				.once("finish", () => {

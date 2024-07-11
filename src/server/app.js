@@ -34,7 +34,12 @@ broadcaster.start()
 broadcaster.on("data", (data) => {
 	// Send data to all connected clients on websocket
 	wss.clients.forEach((socket) => {
+		// console.log(`newData: ${data}`);
 		socket.send(JSON.stringify(data))
+	})
+
+	wss.on("connection", (connection) => {
+		console.log("new connection: " + connection);
 	})
 })
 
